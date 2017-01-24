@@ -2,7 +2,7 @@
   "name": "jet-fuel",
   "version": "1.0.0",
   "description": "Url shortening service",
-  "main": "server.js",
+  "main": "index.js",
   "dependencies": {
     "body-parser": "^1.16.0",
     "express": "^4.14.0",
