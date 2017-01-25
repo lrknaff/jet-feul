@@ -15,13 +15,13 @@ $('.add-folder-button').on('click', function(e) {
 })
 
 function displayFolders(jsonData) {
-  $folderSection.append(`<div class="folder" id=${jsonData.id}>+ ${jsonData.folder_name}</div>`)
+  $folderSection.append(`<div class="folder" id=${jsonData.id}>+ ${jsonData.folder_name}</div><button type="submit">- add link</button>`)
 }
 
 $.get('/api/folders', function(data) {
   for(var key in data) {
     if (data.hasOwnProperty(key))
-    $folderSection.append(`<div class="folder">+ ${data[key].folder_name}</div>`)
+    $folderSection.append(`<div class="folder" id=${data[key].id}>+ ${data[key].folder_name}</div><button type="submit">- add link</button>`)
   }
 })
 
