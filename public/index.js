@@ -4,11 +4,19 @@ function displayFolders(jsonData) {
   $folderSection.append(`
     <div class="folder" id=${jsonData.id}>
       <p>+ ${jsonData.folder_name}</p>
+      <ul></ul>
     </div>
   `)
   $('.folder-dropdown').append(`
     <option id=${jsonData.id}>${jsonData.folder_name}</option>
     `)
+}
+
+function displayUrl(jsonData) {
+  console.log(jsonData)
+  $(`.folder#${jsonData.folder_id}`).append(`
+    <li><a href="#">${jsonData.original_url}</a></li>
+  `)
 }
 
 $.get('/api/folders', function(data) {
@@ -17,6 +25,7 @@ $.get('/api/folders', function(data) {
     $folderSection.append(`
       <div class="folder" id=${data[key].id}>
         <p>+ ${data[key].folder_name}</p>
+        <ul></ul>
       </div>
     `)
     $('.folder-dropdown').append(`
@@ -52,8 +61,6 @@ $('.add-url-button').on('click', function(e) {
   var url = $('.add-url-input').val()
   var folderId = $('option:selected').attr('id')
 
-  console.log(folderId)
-
   $.ajax({
     url: '/api/urls',
     type: 'post',
@@ -61,6 +68,6 @@ $('.add-url-button').on('click', function(e) {
       url: url,
       folderId: folderId
     },
-    // success: displayUrl
+    success: displayUrl
   })
 })
