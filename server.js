@@ -11,6 +11,7 @@ app.set('port', process.env.PORT || 3000);
 
 app.locals.title = 'Jet Fuel'
 app.locals.folders = {}
+app.locals.urls = {}
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 
@@ -50,6 +51,40 @@ app.get('/api/folders/:id', (request, response) => {
   if(!folder) { return response.sendStatus(404); }
 
   response.json({ id, folder })
+})
+
+app.post('/api/urls', (request, response) => {
+  response.setHeader('Content-Type', 'application/json');
+
+  const { url } = request.body
+  const id = md5(url)
+
+  if (!url) {
+   return response.status(422).send({
+     error: 'No url property provided'
+   });
+ }
+
+  app.locals.urls[id] = {
+    url: url,
+    id: id
+  }
+
+  // app.locals.urls[id] = url
+
+  response.status(201).json({
+      url: url,
+      id: id
+   })
+});
+
+app.get('/api/urls/:id', (request, response) => {
+  const { id } = request.params;
+  const url = app.locals.urls[id]
+
+  if(!url) { return response.sendStatus(404); }
+
+  response.json({ id, url })
 })
 
 
