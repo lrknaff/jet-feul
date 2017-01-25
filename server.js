@@ -10,10 +10,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('port', process.env.PORT || 3000);
 
 app.locals.title = 'Jet Fuel'
-app.locals.folders = {
-  folder1: "Lacey's Folder",
-  folder2: "Dale's Folder"
-}
+app.locals.folders = {}
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 
@@ -31,9 +28,12 @@ app.post('/api/folders', (request, response) => {
    });
  }
 
-  app.locals.folders[id] = folder
+  // app.locals.folders[id] = folder
 
-  response.status(201).json({ id, folder })
+  response.status(201).json({
+      folder: folder,
+      id: id
+   })
 });
 
 app.get('/api/folders/:id', (request, response) => {
