@@ -64,12 +64,13 @@ app.post('/api/urls', (request, response) => {
 });
 
 app.get('/api/folders/:id', (request, response) => {
+  debugger
   const { id } = request.params;
-  const folder = app.locals.folders[id]
+  const folder = app.locals.folders.filter(function(url) { return url.id === id })
 
   if(!folder) { return response.sendStatus(404); }
 
-  response.json({ id, folder })
+  response.json({ folder })
 })
 
 
