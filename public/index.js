@@ -24,3 +24,17 @@ $.get('/api/folders', function(data) {
     $folderSection.append(`<div class="folder">+${data[key].folder_name}</div>`)
   }
 })
+
+$('.add-url-button').on('click', function(e) {
+  e.preventDefault()
+  var url = $('.add-url-input').val()
+
+  $.ajax({
+    url: '/api/urls',
+    type: 'post',
+    data: {
+      url: url
+    },
+    // success: displayUrl
+  })
+})
