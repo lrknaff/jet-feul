@@ -19,6 +19,8 @@ app.get('/api/folders', (request, response) => {
 })
 
 app.post('/api/folders', (request, response) => {
+  response.setHeader('Content-Type', 'application/json');
+
   const { folder } = request.body
   const id = md5(folder)
 
@@ -28,7 +30,12 @@ app.post('/api/folders', (request, response) => {
    });
  }
 
-  app.locals.folders[id] = folder
+  app.locals.folders[id] = {
+    folder: folder,
+    id: id
+  }
+
+  // app.locals.folders[id] = folder
 
   response.status(201).json({
       folder: folder,
