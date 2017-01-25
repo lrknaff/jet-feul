@@ -1,13 +1,24 @@
 var $folderSection = $('.folders')
 
 function displayFolders(jsonData) {
-  $folderSection.append(`<div class="folder" id=${jsonData.id}>+ ${jsonData.folder_name}</div><button type="submit" class="add-link-button">- add link</button>`)
+  $folderSection.append(`
+    <div class="folder" id=${jsonData.id}>
+      <p>+ ${jsonData.folder_name}</p>
+    </div>
+  `)
+  $('.folder-dropdown').append(`
+    <option>${jsonData.folder_name}</option>
+    `)
 }
 
 $.get('/api/folders', function(data) {
   for(var key in data) {
     if (data.hasOwnProperty(key))
-    $folderSection.append(`<div class="folder" id=${data[key].id}>+ ${data[key].folder_name}</div><button type="submit" class="add-link-button">- add link</button>`)
+    $folderSection.append(`
+      <div class="folder" id=${data[key].id}>
+        <p>+ ${data[key].folder_name}</p>
+      </div>
+    `)
   }
 })
 
@@ -38,12 +49,3 @@ $('.add-url-button').on('click', function(e) {
     // success: displayUrl
   })
 })
-
-// $('.add-link-button').on('click', function(e) {
-//   e.preventDefault();
-//   $this.append(`<label action="/api/urls" method="post">
-//     Add Link:
-//     <input class="add-url-input" type="text" placeholder="Paste a link to shorten it"/>
-//     <input class="add-url-button" type="submit" value="Shorten link" />
-//   </label>`)
-// })

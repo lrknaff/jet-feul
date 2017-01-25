@@ -13,19 +13,20 @@
     <header>
       <img src="./images/logo-dark.svg" />
     </header>
-    <!-- <form>
-      <label action="/api/urls" method="post">
-        Add Link:
-        <input class="add-url-input" type="text" placeholder="Paste a link to shorten it"/>
-        <input class="add-url-button" type="submit" value="Shorten link" />
-      </label>
-    </form> -->
     <form action="/api/folders" method="post">
       <label>
         Add Folder:
         <input class="add-folder-input" type="text" placeholder="Add a folder" name="folder"/>
       </label>
       <input class="add-folder-button" type="submit" placeholder="Add Folder" value="Add Folder"/>
+    </form>
+    <form>
+      <label action="/api/urls" method="post">
+        Add Link:
+        <input class="add-url-input" type="text" placeholder="Paste a link to shorten it"/>
+        <select class="folder-dropdown"></select> 
+        <input class="add-url-button" type="submit" value="Shorten link" />
+      </label>
     </form>
 
     <div class="folders"></div>
