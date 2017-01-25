@@ -46,7 +46,7 @@ app.post('/api/folders', (request, response) => {
 app.post('/api/urls', (request, response) => {
   response.setHeader('Content-Type', 'application/json');
 
-  const { url } = request.body
+  const { url, folderId } = request.body
   const id = md5(url)
 
   if (!url) {
@@ -55,16 +55,16 @@ app.post('/api/urls', (request, response) => {
    });
  }
 
-  app.locals.urls.push({original_url: url, id: id})
+  app.locals.urls.push({original_url: url, id: id, folder_id: folderId})
 
   response.status(201).json({
       original_url: url,
-      id: id
+      id: id,
+      folder_id: folderId
    })
 });
 
 app.get('/api/folders/:id', (request, response) => {
-  debugger
   const { id } = request.params;
   const folder = app.locals.folders.filter(function(url) { return url.id === id })
 
