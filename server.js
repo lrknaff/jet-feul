@@ -3,6 +3,9 @@ const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
 const md5 = require('md5');
+const shortid = require('shortid')
+
+console.log(shortid.generate())
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,6 +31,7 @@ app.post('/api/folders', (request, response) => {
 
   const { folder } = request.body
   const id = md5(folder)
+  const short = shortid.generate()
 
   if (!folder) {
    return response.status(422).send({
@@ -35,9 +39,10 @@ app.post('/api/folders', (request, response) => {
    });
  }
 
-  app.locals.folders.push({folder_name: folder, id: id})
+  app.locals.folders.push({ short: short, folder_name: folder, id: id})
 
   response.status(201).json({
+      short: short,
       folder_name: folder,
       id: id
    })
@@ -48,6 +53,7 @@ app.post('/api/urls', (request, response) => {
 
   const { url } = request.body
   const id = md5(url)
+  const short = shortid.generate()
 
   if (!url) {
    return response.status(422).send({
