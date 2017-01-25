@@ -30,10 +30,10 @@ app.post('/api/folders', (request, response) => {
    });
  }
 
-  app.locals.folders.push({folder: folder, id: id})
+  app.locals.folders.push({folder_name: folder, id: id})
 
   response.status(201).json({
-      folder: folder,
+      folder_name: folder,
       id: id
    })
 });
