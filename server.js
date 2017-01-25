@@ -20,7 +20,7 @@ app.get('/api/folders', (request, response) => {
 
 app.post('/api/folders', (request, response) => {
   const { folder } = request.body
-  const id = Date.now()
+  const id = md5(folder)
 
   if (!folder) {
    return response.status(422).send({
@@ -28,7 +28,7 @@ app.post('/api/folders', (request, response) => {
    });
  }
 
-  // app.locals.folders[id] = folder
+  app.locals.folders[id] = folder
 
   response.status(201).json({
       folder: folder,
