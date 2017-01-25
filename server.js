@@ -31,7 +31,6 @@ app.post('/api/folders', (request, response) => {
 
   const { folder } = request.body
   const id = md5(folder)
-  const short = shortid.generate()
 
   if (!folder) {
    return response.status(422).send({
@@ -39,10 +38,9 @@ app.post('/api/folders', (request, response) => {
    });
  }
 
-  app.locals.folders.push({ short: short, folder_name: folder, id: id})
+  app.locals.folders.push({ folder_name: folder, id: id})
 
   response.status(201).json({
-      short: short,
       folder_name: folder,
       id: id
    })
@@ -53,7 +51,7 @@ app.post('/api/urls', (request, response) => {
 
   const { url, folderId } = request.body
   const id = md5(url)
-  const short = shortid.generate()
+  const short = 'http://fake.ly/' + shortid.generate()
 
   if (!url) {
    return response.status(422).send({
@@ -61,9 +59,10 @@ app.post('/api/urls', (request, response) => {
    });
  }
 
-  app.locals.urls.push({original_url: url, id: id, folder_id: folderId})
+  app.locals.urls.push({ short_url: short, original_url: url, id: id, folder_id: folderId})
 
   response.status(201).json({
+      short_url: short,
       original_url: url,
       id: id,
       folder_id: folderId
