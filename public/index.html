@@ -13,12 +13,12 @@
     <header>
       <img src="./images/logo-dark.svg" />
     </header>
-    <form>
+    <form action="/api/urls" method="post">
       <label>
         Add Link:
-        <input type="text" placeholder="Paste a link to shorten it"/>
+        <input class="add-url-input" type="text" placeholder="Paste a link to shorten it" name="url"/>
       </label>
-      <input type="submit" value="Shorten link" />
+      <input class="add-url-button" type="submit" value="Shorten link" name="Add url"/>
     </form>
     <form action="/api/folders" method="post">
       <label>
@@ -28,6 +28,7 @@
       <input class="add-folder-button" type="submit" placeholder="Add Folder" value="Add Folder"/>
     </form>
     <div class="folders"></div>
+    <div class="urls"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="index.js"></script>
