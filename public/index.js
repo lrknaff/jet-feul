@@ -15,7 +15,7 @@ $('.add-folder-button').on('click', function(e) {
 })
 
 function displayFolders(jsonData) {
-  $folderSection.append(`<div class="folder">+ ${jsonData.folder_name}</div>`)
+  $folderSection.append(`<div class="folder" id=${jsonData.id}>+ ${jsonData.folder_name}</div>`)
 }
 
 $.get('/api/folders', function(data) {
