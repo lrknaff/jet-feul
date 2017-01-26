@@ -4,11 +4,18 @@ function displayFolders(jsonData) {
   $folderSection.append(`
     <div class="folder" id=${jsonData.id}>
       <p>+ ${jsonData.folder_name}</p>
+      <ul></ul>
     </div>
   `)
   $('.folder-dropdown').append(`
     <option id=${jsonData.id}>${jsonData.folder_name}</option>
     `)
+}
+
+function displayUrl(jsonData) {
+  $(`.folder#${jsonData.folder_id} ul`).append(`
+    <li><a target="_blank" href="http://${jsonData.original_url}">${jsonData.short_url}</a></li>
+  `)
 }
 
 $.get('/api/folders', function(data) {
@@ -17,6 +24,7 @@ $.get('/api/folders', function(data) {
     $folderSection.append(`
       <div class="folder" id=${data[key].id}>
         <p>+ ${data[key].folder_name}</p>
+        <ul></ul>
       </div>
     `)
     $('.folder-dropdown').append(`
@@ -25,13 +33,15 @@ $.get('/api/folders', function(data) {
   }
 })
 
-// $.get('/api/urls', function(data) {
-//     $folderSection.append(`
-//       <div class="folder" id=${data[key].id}>
-//         <p>+ ${data[key].folder_name}</p>
-//       </div>
-//     `)
-// })
+$.get('/api/urls', function(data) {
+  let urlData = data
+  data.forEach(function(url) {
+    var folderId = url.folder_id
+    $(`.folder#${folderId} ul`).append(`
+      <li><a target="_blank" href="http://${url.original_url}">${url.short_url}</a></li>
+    `)
+  })
+})
 
 $('.add-folder-button').on('click', function(e) {
   e.preventDefault()
@@ -52,8 +62,6 @@ $('.add-url-button').on('click', function(e) {
   var url = $('.add-url-input').val()
   var folderId = $('option:selected').attr('id')
 
-  console.log(folderId)
-
   $.ajax({
     url: '/api/urls',
     type: 'post',
@@ -61,6 +69,6 @@ $('.add-url-button').on('click', function(e) {
       url: url,
       folderId: folderId
     },
-    // success: displayUrl
+    success: displayUrl
   })
 })
