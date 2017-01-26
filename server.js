@@ -4,8 +4,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const md5 = require('md5');
 const shortid = require('shortid')
-
-console.log(shortid.generate())
+const moment = require('moment')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -52,7 +51,8 @@ app.post('/api/urls', (request, response) => {
   const { url, folderId } = request.body
   const id = md5(url)
   const short = 'http://fake.ly/' + shortid.generate()
-  const created =
+  const created = moment()
+
   if (!url) {
     return response.status(422).send({
       error: 'No url property provided'
@@ -61,9 +61,10 @@ app.post('/api/urls', (request, response) => {
 
   app.locals.urls.push({
     id: id,
-    folder_id: folderId
+    folder_id: folderId,
     short_url: short,
     original_url: url,
+    created: created,
   })
 
   response.status(201).json({
@@ -71,6 +72,7 @@ app.post('/api/urls', (request, response) => {
     folder_id: folderId,
     short_url: short,
     original_url: url,
+    created: created,
   })
 });
 
