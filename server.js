@@ -52,21 +52,26 @@ app.post('/api/urls', (request, response) => {
   const { url, folderId } = request.body
   const id = md5(url)
   const short = 'http://fake.ly/' + shortid.generate()
-
+  const created =
   if (!url) {
-   return response.status(422).send({
-     error: 'No url property provided'
-   });
- }
+    return response.status(422).send({
+      error: 'No url property provided'
+    });
+  }
 
-  app.locals.urls.push({ short_url: short, original_url: url, id: id, folder_id: folderId})
+  app.locals.urls.push({
+    id: id,
+    folder_id: folderId
+    short_url: short,
+    original_url: url,
+  })
 
   response.status(201).json({
-      short_url: short,
-      original_url: url,
-      id: id,
-      folder_id: folderId
-   })
+    id: id,
+    folder_id: folderId,
+    short_url: short,
+    original_url: url,
+  })
 });
 
 app.get('/api/folders/:id', (request, response) => {
