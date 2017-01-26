@@ -45,13 +45,13 @@ $.get('/api/urls', function(data) {
 
 $('.add-folder-button').on('click', function(e) {
   e.preventDefault()
-  var folder = $('.add-folder-input').val()
+  var folderName = $('.add-folder-input').val()
 
   $.ajax({
     url: '/api/folders',
     type: 'post',
     data: {
-      folder: folder
+      folder_name: folderName
     },
     success: displayFolders
   })
@@ -66,8 +66,8 @@ $('.add-url-button').on('click', function(e) {
     url: '/api/urls',
     type: 'post',
     data: {
-      url: url,
-      folderId: folderId
+      original_url: url,
+      folder_id: folderId
     },
     success: displayUrl
   })
