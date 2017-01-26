@@ -1,7 +1,6 @@
 var $folderSection = $('.folders')
 
 function displayFolders(jsonData) {
-  console.log(jsonData)
   $folderSection.append(`
     <div class="folder" id=${jsonData.id}>
       <p>+ ${jsonData.folder_name}</p>
@@ -14,6 +13,7 @@ function displayFolders(jsonData) {
 }
 
 function displayUrl(jsonData) {
+  console.log(jsonData)
   $(`.folder#${jsonData.folder_id} ul`).append(`
     <li><a target="_blank" href="http://${jsonData.original_url}">${jsonData.short_url}</a></li>
   `)
@@ -67,8 +67,8 @@ $('.add-url-button').on('click', function(e) {
     url: '/api/urls',
     type: 'post',
     data: {
-      url: url,
-      folderId: folderId
+      original_url: url,
+      folder_id: folderId
     },
     success: displayUrl
   })

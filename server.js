@@ -60,21 +60,17 @@ app.post('/api/urls', (request, response) => {
   response.setHeader('Content-Type', 'application/json');
 
   const { original_url, folder_id } = request.body
-  const id = md5(url)
   const short_url = 'http://fake.ly/' + shortid.generate()
   const created_at = moment()
+  const url = { folder_id, short_url, original_url, created_at: new Date }
 
-  const url = { id, folder_id, short_url, original_url, created_at: new Date }
-  database('folders').insert(url)
-  .then(function() {
-    database('folders')
-            .then(function(urls) {
-              response.status(200).json(urls);
+  database('folders').insert(url).returning(['id', 'short_url, original_url'])
+            .then(function(payload) {
+              response.status(200).json(payload[0])
             })
             .catch(function(error) {
-              console.error('somethings wrong with db')
+              console.error('somethings wrong with db', error)
             })
-  })
 });
 
 app.get('/api/folders/:id', (request, response) => {
