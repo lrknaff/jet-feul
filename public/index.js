@@ -13,7 +13,6 @@ function displayFolders(jsonData) {
 }
 
 function displayUrl(jsonData) {
-  console.log(jsonData)
   $(`.folder#${jsonData.folder_id} ul`).append(`
     <li><a target="_blank" href="http://${jsonData.original_url}">${jsonData.short_url}</a></li>
   `)
@@ -62,9 +61,6 @@ $('.add-url-button').on('click', function(e) {
   e.preventDefault()
   var url = $('.add-url-input').val()
   var folderId = $('option:selected').attr('id')
-
-  console.log(url)
-  console.log(folderId)
 
   $.ajax({
     url: '/api/urls',
