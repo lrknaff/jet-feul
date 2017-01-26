@@ -22,7 +22,7 @@ app.locals.urls = []
 app.use('/', express.static(path.join(__dirname, 'public')));
 
 app.get('/api/folders', (request, response) => {
-  database('folders').select()
+  database('folders').select().table('folders')
           .then(function(folders) {
             response.status(200).json(folders)
           })
@@ -32,7 +32,13 @@ app.get('/api/folders', (request, response) => {
 })
 
 app.get('/api/urls', (request, response) => {
-  response.json(app.locals.urls)
+  database('folders').select().table('urls')
+          .then(function(urls) {
+            response.status(200).json(urls)
+          })
+          .catch(function(error) {
+            console.error('something wrong with db')
+          })
 })
 
 app.post('/api/folders', (request, response) => {
