@@ -14,7 +14,7 @@ function displayFolders(jsonData) {
 
 function displayUrl(jsonData) {
   $(`.folder#${jsonData.folder_id} ul`).append(`
-    <li><a href="#">${jsonData.short_url}</a></li>
+    <li><a target="_blank" href="http://${jsonData.original_url}">${jsonData.short_url}</a></li>
   `)
 }
 
