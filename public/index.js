@@ -63,6 +63,9 @@ $('.add-url-button').on('click', function(e) {
   var url = $('.add-url-input').val()
   var folderId = $('option:selected').attr('id')
 
+  console.log(url)
+  console.log(folderId)
+
   $.ajax({
     url: '/api/urls',
     type: 'post',
