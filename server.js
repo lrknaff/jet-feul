@@ -46,7 +46,7 @@ app.post('/api/folders', (request, response) => {
   .then(function() {
     database('folders').select()
             .then(function(folder) {
-              response.status(200).json(secrets);
+              response.status(200).json(folders);
             })
             .catch(function(error) {
               console.error('somethings wrong with db')
@@ -57,12 +57,22 @@ app.post('/api/folders', (request, response) => {
 app.post('/api/urls', (request, response) => {
   response.setHeader('Content-Type', 'application/json');
 
-  const { url, folderId } = request.body
+  const { original_url, folder_id } = request.body
   const id = md5(url)
-  const short = 'http://fake.ly/' + shortid.generate()
-  const created = moment()
+  const short_url = 'http://fake.ly/' + shortid.generate()
+  const created_at = moment()
 
-
+  const url = { id, folder_id, short_url, original_url, created_at: new Date }
+  database('folders').insert(url)
+  .then(function() {
+    database('folders').select()
+            .then(function(urls) {
+              response.status(200).json(urls);
+            })
+            .catch(function(error) {
+              console.error('somethings wrong with db')
+            })
+  })
 });
 
 app.get('/api/folders/:id', (request, response) => {
