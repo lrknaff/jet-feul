@@ -1,6 +1,7 @@
 var $folderSection = $('.folders')
 
 function displayFolders(jsonData) {
+  console.log(jsonData)
   $folderSection.append(`
     <div class="folder" id=${jsonData.id}>
       <p>+ ${jsonData.folder_name}</p>
@@ -45,13 +46,13 @@ $.get('/api/urls', function(data) {
 
 $('.add-folder-button').on('click', function(e) {
   e.preventDefault()
-  var folder = $('.add-folder-input').val()
+  var folderName = $('.add-folder-input').val()
 
   $.ajax({
     url: '/api/folders',
     type: 'post',
     data: {
-      folder: folder
+      folder_name: folderName
     },
     success: displayFolders
   })

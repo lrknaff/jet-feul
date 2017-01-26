@@ -45,19 +45,15 @@ app.post('/api/folders', (request, response) => {
   response.setHeader('Content-Type', 'application/json');
 
   const { folder_name } = request.body
-  const id = md5(folder_name)
+  const folder = { folder_name, created_at: new Date }
 
-  const folder = { id, folder_name, created_at: new Date }
-  database('folders').insert(folder)
-  .then(function() {
-    database('folders').select()
-            .then(function(folder) {
-              response.status(200).json(folders);
+  database('folders').insert(folder).returning(['id', 'folder_name'])
+            .then(function(payload) {
+              response.status(200).json(payload[0])
             })
             .catch(function(error) {
-              console.error('somethings wrong with db')
+              console.error('somethings wrong with db', error)
             })
-  })
 });
 
 app.post('/api/urls', (request, response) => {
@@ -71,7 +67,7 @@ app.post('/api/urls', (request, response) => {
   const url = { id, folder_id, short_url, original_url, created_at: new Date }
   database('folders').insert(url)
   .then(function() {
-    database('folders').select()
+    database('folders')
             .then(function(urls) {
               response.status(200).json(urls);
             })
