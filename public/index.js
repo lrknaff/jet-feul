@@ -1,5 +1,6 @@
 var $folderSection = $('.folders')
 
+
 function displayFolders(jsonData) {
   $folderSection.append(`
     <div class="folder" id=${jsonData.id}>
@@ -14,7 +15,10 @@ function displayFolders(jsonData) {
 
 function displayUrl(jsonData) {
   $(`.folder#${jsonData.folder_id} ul`).append(`
-    <li><a target="_blank" href="http://${jsonData.original_url}">${jsonData.short_url}</a></li>
+    <li>
+      <a target="_blank" href="http://${jsonData.original_url}">${jsonData.short_url}</a>
+      <p>Created at: ${jsonData.created_at}</p>
+    </li>
   `)
 }
 
@@ -38,7 +42,10 @@ $.get('/api/urls', function(data) {
   data.forEach(function(url) {
     var folderId = url.folder_id
     $(`.folder#${folderId} ul`).append(`
-      <li><a target="_blank" href="http://${url.original_url}">${url.short_url}</a></li>
+      <li>
+        <a target="_blank" href="http://${url.original_url}">${url.short_url}</a>
+        <p>Created at: ${url.created_at}</p>
+      </li>
     `)
   })
 })
