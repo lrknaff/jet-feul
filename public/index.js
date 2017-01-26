@@ -4,7 +4,7 @@ var $folderSection = $('.folders')
 function displayFolders(jsonData) {
   $folderSection.append(`
     <div class="folder" id=${jsonData.id}>
-      <p>+ ${jsonData.folder_name}</p>
+      <h2>+ ${jsonData.folder_name}</h2>
       <ul></ul>
     </div>
   `)
@@ -16,8 +16,11 @@ function displayFolders(jsonData) {
 function displayUrl(jsonData) {
   $(`.folder#${jsonData.folder_id} ul`).append(`
     <li>
-      <a target="_blank" href="http://${jsonData.original_url}">${jsonData.short_url}</a>
-      <p>Created at: ${jsonData.created_at}</p>
+      <div class="details">
+        <a target="_blank" href="http://${jsonData.original_url}">${jsonData.short_url}</a>
+        <p>Created at: ${jsonData.created_at}</p>
+        <p>Times visited: </p>
+      </div>
     </li>
   `)
 }
@@ -27,7 +30,7 @@ $.get('/api/folders', function(data) {
     if (data.hasOwnProperty(key))
     $folderSection.append(`
       <div class="folder" id=${data[key].id}>
-        <p>+ ${data[key].folder_name}</p>
+        <h2>+ ${data[key].folder_name}</h2>
         <ul></ul>
       </div>
     `)
@@ -43,8 +46,11 @@ $.get('/api/urls', function(data) {
     var folderId = url.folder_id
     $(`.folder#${folderId} ul`).append(`
       <li>
-        <a target="_blank" href="http://${url.original_url}">${url.short_url}</a>
-        <p>Created at: ${url.created_at}</p>
+        <div class="details">
+          <a target="_blank" href="http://${url.original_url}">${url.short_url}</a>
+          <p>Created at: ${url.created_at}</p>
+          <p>Times visited: </p>
+        </div>
       </li>
     `)
   })
