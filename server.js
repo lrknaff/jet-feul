@@ -3,11 +3,15 @@ const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
 const md5 = require('md5');
-const shortid = require('shortid')
-const moment = require('moment')
+const shortid = require('shortid');
+const moment = require('moment');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+const environment = process.env.NODE_ENV || 'development';
+const configuration = require('./knexfile')[environment];
+const database = require('knex')(configuration);
 
 app.set('port', process.env.PORT || 3000);
 
@@ -18,7 +22,13 @@ app.locals.urls = []
 app.use('/', express.static(path.join(__dirname, 'public')));
 
 app.get('/api/folders', (request, response) => {
-  response.json(app.locals.folders)
+  database('folders').select()
+          .then(function(folders) {
+            response.status(200).json(folders)
+          })
+          .catch(function(error) {
+            console.error('something wrong with db')
+          })
 })
 
 app.get('/api/urls', (request, response) => {
@@ -28,21 +38,20 @@ app.get('/api/urls', (request, response) => {
 app.post('/api/folders', (request, response) => {
   response.setHeader('Content-Type', 'application/json');
 
-  const { folder } = request.body
-  const id = md5(folder)
+  const { folder_name } = request.body
+  const id = md5(folder_name)
 
-  if (!folder) {
-   return response.status(422).send({
-     error: 'No folder property provided'
-   });
- }
-
-  app.locals.folders.push({ folder_name: folder, id: id})
-
-  response.status(201).json({
-      folder_name: folder,
-      id: id
-   })
+  const folder = { id, folder_name, created_at: new Date }
+  database('folders').insert(folder)
+  .then(function() {
+    database('folders').select()
+            .then(function(folder) {
+              response.status(200).json(secrets);
+            })
+            .catch(function(error) {
+              console.error('somethings wrong with db')
+            })
+  })
 });
 
 app.post('/api/urls', (request, response) => {
@@ -53,27 +62,7 @@ app.post('/api/urls', (request, response) => {
   const short = 'http://fake.ly/' + shortid.generate()
   const created = moment()
 
-  if (!url) {
-    return response.status(422).send({
-      error: 'No url property provided'
-    });
-  }
 
-  app.locals.urls.push({
-    id: id,
-    folder_id: folderId,
-    short_url: short,
-    original_url: url,
-    created: created,
-  })
-
-  response.status(201).json({
-    id: id,
-    folder_id: folderId,
-    short_url: short,
-    original_url: url,
-    created: created,
-  })
 });
 
 app.get('/api/folders/:id', (request, response) => {
