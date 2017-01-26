@@ -33,13 +33,15 @@ $.get('/api/folders', function(data) {
   }
 })
 
-// $.get('/api/urls', function(data) {
-//     $folderSection.append(`
-//       <div class="folder" id=${data[key].id}>
-//         <p>+ ${data[key].folder_name}</p>
-//       </div>
-//     `)
-// })
+$.get('/api/urls', function(data) {
+  let urlData = data
+  data.forEach(function(url) {
+    var folderId = url.folder_id
+    $(`.folder#${folderId} ul`).append(`
+      <li><a target="_blank" href="http://${url.original_url}">${url.short_url}</a></li>
+    `)
+  })
+})
 
 $('.add-folder-button').on('click', function(e) {
   e.preventDefault()
