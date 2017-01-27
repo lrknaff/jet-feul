@@ -78,6 +78,42 @@ describe('GET /api/urls', function() {
   });
 });
 
+
+describe('GET /api/urls/list', function() {
+  it('should return a 200 status code', function(done) {
+      chai.request(server)
+      .get('/api/urls/list')
+      .end(function(err, res) {
+        res.should.have.status(200);
+        done()
+      })
+  });
+  it('should return json', function(done) {
+    chai.request(server)
+    .get('/api/urls/list')
+    .end(function(err, res) {
+      res.should.be.json; // jshint ignore:line
+      done()
+    })
+  });
+  it('should be an array', function(done) {
+    chai.request(server)
+    .get('/api/urls/list')
+    .end(function(err, res) {
+      res.body.should.be.a('array');
+      done()
+    })
+  })
+  it.skip('should return urls', function(done) {
+    chai.request(server)
+    .get('/api/urls/list')
+    .end(function(err, res) {
+    res.body.should.have.property('id');
+    done();
+    });
+  });
+});
+
 describe('GET /api/urls/:id', function() {
   it('should return a 200 status code', function(done) {
       chai.request(server)
