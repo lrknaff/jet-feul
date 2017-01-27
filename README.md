@@ -5,17 +5,19 @@ This is an application that allows a user to create folders to store long, ugly 
 
 The main goal of this application is to redirect a request at the shortened URL to their long URL equivalent. Each shortened URL should belong to a unique folder which is capable of storing N URLs.
 
-The secondary goal is to track URL usage and provide popularity statistics. 
+The secondary goal is to track URL usage and provide popularity statistics.
 
 ##Built/Tested With
 * JavaScript
 * jQuery
 * Express.js
 * Node.js
-* MySQL
+* Knex
+* posgresql
 * HTML
-* Sass
+* CSS
 * Mocha
+* Chai
 
 ##View
 COMING SOON
