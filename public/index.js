@@ -17,7 +17,7 @@ function displayUrl(jsonData) {
   $(`.folder#${jsonData.folder_id} ul`).append(`
     <li>
       <div class="details">
-        <a id=${jsonData.id} target="_blank" href="http://${url.original_url} onClick="countVisited(${jsonData.times_visited}, ${jsonData.id})">${jsonData.short_url}</a>
+        <a id=${jsonData.id} target="_blank" href="http://${jsonData.original_url} onClick="countVisited(${jsonData.times_visited}, ${jsonData.id})">${jsonData.short_url}</a>
         <p>Created at: ${jsonData.created_at}</p>
         <p>Times visited: ${jsonData.times_visited}</p>
       </div>
@@ -34,7 +34,7 @@ function countVisited(count, id) {
     data: {
       times_visited: addCount
     },
-    // success: displayUrls
+    success: displayUrl
   })
 }
 
