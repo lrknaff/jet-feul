@@ -41,6 +41,18 @@ app.get('/api/urls', (request, response) => {
           })
 })
 
+app.get('/api/urls/:id', (request, response) => {
+  const { id } = request.params
+  database('folders').select().table('urls').where('id', id)
+          .then(function(urls) {
+            response.status(200).json(urls);
+          })
+          .catch(function(error) {
+            console.error(error)
+          })
+})
+
+
 app.post('/api/folders', (request, response) => {
   response.setHeader('Content-Type', 'application/json');
 
@@ -54,14 +66,13 @@ app.post('/api/folders', (request, response) => {
             .catch(function(error) {
               console.error('somethings wrong with db', error)
             })
-});
+})
 
 app.post('/api/urls', (request, response) => {
   response.setHeader('Content-Type', 'application/json');
 
   const { original_url, folder_id } = request.body
   const short_url = 'http://fake.ly/' + shortid.generate()
-  const created_at = moment()
   const url = { times_visited: 0, folder_id, short_url, original_url, created_at: new Date }
 
   database('folders').select().table('urls').insert(url).returning(['id', 'folder_id', 'short_url', 'original_url', 'times_visited'])
@@ -71,18 +82,9 @@ app.post('/api/urls', (request, response) => {
             .catch(function(error) {
               console.error('somethings wrong with db', error)
             })
-});
-
-app.get('/api/folders/:id', (request, response) => {
-  const { id } = request.params;
-  const folder = app.locals.folders.filter(function(url) { return url.id === id })
-
-  if(!folder) { return response.sendStatus(404); }
-
-  response.json({ folder })
 })
 
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
-});
+})
