@@ -1,4 +1,3 @@
-
 var $folderSection = $('.folders')
 var $urlSection = $('.urls')
 
@@ -208,7 +207,6 @@ $('.add-url-button').on('click', function(e) {
 
 $('.filter-input').on('keyup', function(){
     var filter = $(this).val();
-    console.log(filter)
 
     $('.urls li').each(function() {
       if($(this).text().search(new RegExp(filter, 'i')) < 0) {
