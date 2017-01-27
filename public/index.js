@@ -1,4 +1,6 @@
+
 var $folderSection = $('.folders')
+var $urlSection = $('.urls')
 
 function displayFolders(jsonData) {
   $folderSection.append(`
@@ -14,6 +16,19 @@ function displayFolders(jsonData) {
 
 function displayUrl(jsonData) {
   $(`.folder#${jsonData.folder_id} ul`).append(`
+    <li>
+      <div class="details">
+        <a id=${jsonData.id} onClick="countVisited( ${jsonData.id})">${jsonData.short_url}</a>
+        <p>Created at: ${jsonData.created_at}</p>
+        <p class="visits">Times visited: ${jsonData.times_visited}</p>
+      </div>
+    </li>
+  `)
+  displayUrlList(jsonData);
+}
+
+function displayUrlList(jsonData) {
+  $urlSection.append(`
     <li>
       <div class="details">
         <a id=${jsonData.id} onClick="countVisited( ${jsonData.id})">${jsonData.short_url}</a>
@@ -74,6 +89,57 @@ $.get('/api/urls', function(data) {
         </div>
       </li>
     `)
+  })
+})
+
+$.get('/api/urls/list', function(data) {
+  for(var key in data) {
+    if (data.hasOwnProperty(key))
+    $urlSection.append(`
+      <li>
+        <div class="details">
+          <a id=${data[key].id} onClick="countVisited( ${data[key].id})">${data[key].short_url}</a>
+          <p>Created at: ${data[key].created_at}</p>
+          <p class="visits">Times visited: ${data[key].times_visited}</p>
+        </div>
+      </li>
+    `)
+  }
+})
+
+$('.sort-url-date-button').on('click', function(e) {
+  e.preventDefault()
+  $.get('/api/urls/sort', function(data) {
+    for(var key in data) {
+      if (data.hasOwnProperty(key))
+      $urlSection.append(`
+        <li>
+          <div class="details">
+            <a id=${data[key].id} onClick="countVisited( ${data[key].id})">${data[key].short_url}</a>
+            <p>Created at: ${data[key].created_at}</p>
+            <p class="visits">Times visited: ${data[key].times_visited}</p>
+          </div>
+        </li>
+      `)
+    }
+  })
+})
+
+$('.sort-url-visit-button').on('click', function(e) {
+  e.preventDefault()
+  $.get('/api/urls/sort', function(data) {
+    for(var key in data) {
+      if (data.hasOwnProperty(key))
+      $urlSection.append(`
+        <li>
+          <div class="details">
+            <a id=${data[key].id} onClick="countVisited( ${data[key].id})">${data[key].short_url}</a>
+            <p>Created at: ${data[key].created_at}</p>
+            <p class="visits">Times visited: ${data[key].times_visited}</p>
+          </div>
+        </li>
+      `)
+    }
   })
 })
 
