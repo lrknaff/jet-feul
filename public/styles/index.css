@@ -54,6 +54,12 @@ img {
   margin: 15px 0;
 }
 
+.urls-list {
+  position: relative;
+  margin: 0 auto;
+  width: 80%;
+}
+
 .details {
   margin-bottom: 10px;
   margin-left: 25px;
