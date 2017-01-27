@@ -1,4 +1,3 @@
-
 var $folderSection = $('.folders')
 var $urlSection = $('.urls')
 
@@ -18,6 +17,7 @@ function displayUrl(jsonData) {
   $(`.folder#${jsonData.folder_id} ul`).append(`
     <li>
       <div class="details">
+        <p>${jsonData.original_url}</p>
         <a id=${jsonData.id} onClick="countVisited( ${jsonData.id})">${jsonData.short_url}</a>
         <p>Created at: ${jsonData.created_at}</p>
         <p class="visits">Times visited: ${jsonData.times_visited}</p>
@@ -31,6 +31,7 @@ function displayUrlList(jsonData) {
   $urlSection.append(`
     <li>
       <div class="details">
+        <p>${jsonData.original_url}</p>
         <a id=${jsonData.id} onClick="countVisited( ${jsonData.id})">${jsonData.short_url}</a>
         <p>Created at: ${jsonData.created_at}</p>
         <p class="visits">Times visited: ${jsonData.times_visited}</p>
@@ -66,6 +67,7 @@ function returnAscendingList(data, key) {
   $('.urls').append(`
     <li>
       <div class="details">
+        <p>${data[key].original_url}</p>
         <a id=${data[key].id} onClick="countVisited( ${data[key].id})">${data[key].short_url}</a>
         <p>Created at: ${data[key].created_at}</p>
         <p class="visits">Times visited: ${data[key].times_visited}</p>
@@ -78,6 +80,7 @@ function returnDescendingList(data, key) {
   $('.urls').prepend(`
     <li>
       <div class="details">
+        <p>${data[key].original_url}</p>
         <a id=${data[key].id} onClick="countVisited( ${data[key].id})">${data[key].short_url}</a>
         <p>Created at: ${data[key].created_at}</p>
         <p class="visits">Times visited: ${data[key].times_visited}</p>
@@ -107,6 +110,7 @@ $.get('/api/urls', function(data) {
     $(`.folder#${folderId} ul`).append(`
       <li>
         <div class="details">
+          <p>${url.original_url}</p>
           <a id=${url.id} onClick="countVisited( ${url.id})">${url.short_url}</a>
           <p>Created at: ${url.created_at}</p>
           <p class="visits">Times visited: ${url.times_visited}</p>
@@ -200,3 +204,16 @@ $('.add-url-button').on('click', function(e) {
 
   $('.add-url-input').val('')
 })
+
+$('.filter-input').on('keyup', function(){
+    var filter = $(this).val();
+
+    $('.urls li').each(function() {
+      if($(this).text().search(new RegExp(filter, 'i')) < 0) {
+        $(this).fadeOut();
+      }
+      else {
+        $(this).fadeIn();
+      }
+    });
+});
