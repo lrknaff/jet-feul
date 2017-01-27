@@ -19,10 +19,17 @@ function displayUrl(jsonData) {
       <div class="details">
         <a id=${jsonData.id} target="_blank" href="http://${jsonData.original_url} onClick="countVisited(${jsonData.times_visited}, ${jsonData.id})">${jsonData.short_url}</a>
         <p>Created at: ${jsonData.created_at}</p>
-        <p>Times visited: ${jsonData.times_visited}</p>
+        <p class="visits">Times visited: ${jsonData.times_visited}</p>
       </div>
     </li>
   `)
+}
+
+function replaceCount(jsonData) {
+  console.log(jsonData.id)
+  $(`a#${jsonData.id}`).siblings('.visits').replaceWith(`
+    <p class="visits">Times: visted: ${jsonData.times_visited}</p>
+    `)
 }
 
 function countVisited(count, id) {
@@ -34,7 +41,7 @@ function countVisited(count, id) {
     data: {
       times_visited: addCount
     },
-    success: displayUrl
+    success: replaceCount
   })
 }
 
@@ -62,7 +69,7 @@ $.get('/api/urls', function(data) {
         <div class="details">
           <a id=${url.id} href="#" onClick="countVisited(${url.times_visited}, ${url.id})">${url.short_url}</a>
           <p>Created at: ${url.created_at}</p>
-          <p>Times visited: ${url.times_visited}</p>
+          <p class="visits">Times visited: ${url.times_visited}</p>
         </div>
       </li>
     `)
