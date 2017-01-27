@@ -23,6 +23,19 @@ function displayUrl(jsonData) {
       </div>
     </li>
   `)
+  displayUrlList(jsonData);
+}
+
+function displayUrlList(jsonData) {
+  $urlSection.append(`
+    <li>
+      <div class="details">
+        <a id=${jsonData.id} onClick="countVisited( ${jsonData.id})">${jsonData.short_url}</a>
+        <p>Created at: ${jsonData.created_at}</p>
+        <p class="visits">Times visited: ${jsonData.times_visited}</p>
+      </div>
+    </li>
+  `)
 }
 
 function replaceCount(jsonData) {
@@ -63,6 +76,21 @@ $.get('/api/folders', function(data) {
   }
 })
 
+$.get('/api/urls', function(data) {
+  data.forEach(function(url) {
+    var folderId = url.folder_id
+    $(`.folder#${folderId} ul`).append(`
+      <li>
+        <div class="details">
+          <a id=${url.id} onClick="countVisited( ${url.id})">${url.short_url}</a>
+          <p>Created at: ${url.created_at}</p>
+          <p class="visits">Times visited: ${url.times_visited}</p>
+        </div>
+      </li>
+    `)
+  })
+})
+
 $.get('/api/urls/list', function(data) {
   for(var key in data) {
     if (data.hasOwnProperty(key))
@@ -78,20 +106,6 @@ $.get('/api/urls/list', function(data) {
   }
 })
 
-$.get('/api/urls', function(data) {
-  data.forEach(function(url) {
-    var folderId = url.folder_id
-    $(`.folder#${folderId} ul`).append(`
-      <li>
-        <div class="details">
-          <a id=${url.id} onClick="countVisited( ${url.id})">${url.short_url}</a>
-          <p>Created at: ${url.created_at}</p>
-          <p class="visits">Times visited: ${url.times_visited}</p>
-        </div>
-      </li>
-    `)
-  })
-})
 
 $('.add-folder-button').on('click', function(e) {
   e.preventDefault()
