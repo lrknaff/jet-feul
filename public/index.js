@@ -89,6 +89,8 @@ $('.add-folder-button').on('click', function(e) {
     },
     success: displayFolders
   })
+
+  $('.add-folder-input').val('')
 })
 
 $('.add-url-button').on('click', function(e) {
@@ -105,4 +107,6 @@ $('.add-url-button').on('click', function(e) {
     },
     success: displayUrl
   })
+
+  $('.add-url-input').val('')
 })
