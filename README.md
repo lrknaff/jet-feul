@@ -20,7 +20,7 @@ The secondary goal is to track URL usage and provide popularity statistics.
 * Chai
 
 ##View
-COMING SOON
+[Jet Fuel](https://jet-fuel-lk.herokuapp.com/)
 
 ##Installation and Setup Instructions
 Clone down the repository. You will need 'node' and 'npm' installed.
