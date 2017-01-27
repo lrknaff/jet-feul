@@ -25,9 +25,17 @@ function displayUrl(jsonData) {
   `)
 }
 
-function countVisited(count, visited) {
-  console.log(count)
-  console.log(visited)
+function countVisited(count, id) {
+  var addCount = count + 1
+
+  $.ajax({
+    url: `/api/urls/${id}`,
+    type: 'put',
+    data: {
+      times_visited: addCount
+    },
+    // success: displayUrls
+  })
 }
 
 $.get('/api/folders', function(data) {
@@ -52,7 +60,7 @@ $.get('/api/urls', function(data) {
     $(`.folder#${folderId} ul`).append(`
       <li>
         <div class="details">
-          <a id=${url.id} target="_blank" href="http://${url.original_url}" onClick="countVisited(${url.times_visited}, ${url.id})">${url.short_url}</a>
+          <a id=${url.id} href="#" onClick="countVisited(${url.times_visited}, ${url.id})">${url.short_url}</a>
           <p>Created at: ${url.created_at}</p>
           <p>Times visited: ${url.times_visited}</p>
         </div>
@@ -60,6 +68,8 @@ $.get('/api/urls', function(data) {
     `)
   })
 })
+
+// target="_blank" href="http://${url.original_url}"
 
 $('.add-folder-button').on('click', function(e) {
   e.preventDefault()

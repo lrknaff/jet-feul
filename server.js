@@ -83,14 +83,17 @@ app.post('/api/urls', (request, response) => {
             })
 })
 
-app.put('/api/url/:id', (request, response) => {
+app.put('/api/urls/:id', (request, response) => {
   const { id } = request.params
   const { times_visited } = request.body
 
-  database('folders').select().table('urls').where('id', id)
-          .update({ times_visited })
+  database('folders').select().table('urls').where('id', id).first()
+          .update({ times_visited: times_visited })
           .then(function(urls) {
-            response.status(200).json({ times_visited })
+            response.status(200).json({ urls })
+          })
+          .catch(function(error) {
+            console.error(error)
           })
 })
 
