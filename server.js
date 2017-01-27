@@ -64,7 +64,7 @@ app.post('/api/urls', (request, response) => {
   const created_at = moment()
   const url = { times_visited: 0, folder_id, short_url, original_url, created_at: new Date }
 
-  database('folders').select().table('urls').insert(url).returning(['folder_id', 'short_url', 'original_url', 'times_visited'])
+  database('folders').select().table('urls').insert(url).returning(['id', 'folder_id', 'short_url', 'original_url', 'times_visited'])
             .then(function(payload) {
               response.status(200).json(payload[0])
             })

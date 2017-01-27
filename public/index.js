@@ -1,6 +1,5 @@
 var $folderSection = $('.folders')
 
-
 function displayFolders(jsonData) {
   $folderSection.append(`
     <div class="folder" id=${jsonData.id}>
@@ -18,12 +17,16 @@ function displayUrl(jsonData) {
   $(`.folder#${jsonData.folder_id} ul`).append(`
     <li>
       <div class="details">
-        <a target="_blank" href="http://${jsonData.original_url}">${jsonData.short_url}</a>
+        <a id=${jsonData.id} href="#" onClick="countVisited(${url.times_visited})">${jsonData.short_url}</a>
         <p>Created at: ${jsonData.created_at}</p>
         <p>Times visited: ${jsonData.times_visited}</p>
       </div>
     </li>
   `)
+}
+
+function countVisited(count) {
+  console.log(count)
 }
 
 $.get('/api/folders', function(data) {
@@ -48,7 +51,7 @@ $.get('/api/urls', function(data) {
     $(`.folder#${folderId} ul`).append(`
       <li>
         <div class="details">
-          <a target="_blank" href="http://${url.original_url}">${url.short_url}</a>
+          <a id=${url.id} href="#" onClick="countVisited(${url.times_visited})">${url.short_url}</a>
           <p>Created at: ${url.created_at}</p>
           <p>Times visited: ${url.times_visited}</p>
         </div>
