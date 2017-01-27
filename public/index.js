@@ -1,4 +1,5 @@
 var $folderSection = $('.folders')
+var $urlSection = $('.urls')
 
 function displayFolders(jsonData) {
   $folderSection.append(`
@@ -59,6 +60,21 @@ $.get('/api/folders', function(data) {
     $('.folder-dropdown').append(`
       <option id=${data[key].id}>${data[key].folder_name}</option>
       `)
+  }
+})
+
+$.get('/api/urls/list', function(data) {
+  for(var key in data) {
+    if (data.hasOwnProperty(key))
+    $urlSection.append(`
+      <li>
+        <div class="details">
+          <a id=${data[key].id} onClick="countVisited( ${data[key].id})">${data[key].short_url}</a>
+          <p>Created at: ${data[key].created_at}</p>
+          <p class="visits">Times visited: ${data[key].times_visited}</p>
+        </div>
+      </li>
+    `)
   }
 })
 
