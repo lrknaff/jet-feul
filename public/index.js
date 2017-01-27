@@ -30,7 +30,7 @@ function countVisited(count, id) {
 
   $.ajax({
     url: `/api/urls/${id}`,
-    type: 'put',
+    type: 'patch',
     data: {
       times_visited: addCount
     },

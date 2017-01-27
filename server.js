@@ -83,7 +83,7 @@ app.post('/api/urls', (request, response) => {
             })
 })
 
-app.put('/api/urls/:id', (request, response) => {
+app.patch('/api/urls/:id', (request, response) => {
   const { id } = request.params
   const { times_visited } = request.body
 
