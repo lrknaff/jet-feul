@@ -52,7 +52,6 @@ app.get('/api/urls/:id', (request, response) => {
           })
 })
 
-
 app.post('/api/folders', (request, response) => {
   response.setHeader('Content-Type', 'application/json');
 
@@ -82,6 +81,17 @@ app.post('/api/urls', (request, response) => {
             .catch(function(error) {
               console.error('somethings wrong with db', error)
             })
+})
+
+app.put('/api/url/:id', (request, response) => {
+  const { id } = request.params
+  const { times_visited } = request.body
+
+  database('folders').select().table('urls').where('id', id)
+          .update({ times_visited })
+          .then(function(urls) {
+            response.status(200).json({ times_visited })
+          })
 })
 
 
