@@ -133,20 +133,40 @@ $('.sort-url-visit-button').on('click', function(e) {
 
   $('.urls').replaceWith(`<ul class="urls"></ul>`)
 
-  $.get('/api/urls/sort', function(data) {
-    for(var key in data) {
-      if (data.hasOwnProperty(key))
-      $('.urls').append(`
-        <li>
+  $(this).toggleClass('ascend')
+
+  if ($(this).attr('class') === "sort-url-visit-button ascend") {
+    $.get('/api/urls/sort-visit', function(data) {
+      for(var key in data) {
+        if (data.hasOwnProperty(key))
+        $('.urls').append(`
+          <li>
           <div class="details">
-            <a id=${data[key].id} onClick="countVisited( ${data[key].id})">${data[key].short_url}</a>
-            <p>Created at: ${data[key].created_at}</p>
-            <p class="visits">Times visited: ${data[key].times_visited}</p>
+          <a id=${data[key].id} onClick="countVisited( ${data[key].id})">${data[key].short_url}</a>
+          <p>Created at: ${data[key].created_at}</p>
+          <p class="visits">Times visited: ${data[key].times_visited}</p>
           </div>
-        </li>
-      `)
-    }
-  })
+          </li>
+          `)
+        }
+      })
+  } else {
+    $.get('/api/urls/sort-visit', function(data) {
+      for(var key in data) {
+        if (data.hasOwnProperty(key))
+        $('.urls').prepend(`
+          <li>
+          <div class="details">
+          <a id=${data[key].id} onClick="countVisited( ${data[key].id})">${data[key].short_url}</a>
+          <p>Created at: ${data[key].created_at}</p>
+          <p class="visits">Times visited: ${data[key].times_visited}</p>
+          </div>
+          </li>
+          `)
+        }
+      })
+  }
+
 })
 
 $('.add-folder-button').on('click', function(e) {
