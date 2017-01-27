@@ -47,10 +47,6 @@ function countVisited(id) {
   })
 }
 
-function visitPage(url) {
-   window.visitUrl(url)
-}
-
 $.get('/api/folders', function(data) {
   for(var key in data) {
     if (data.hasOwnProperty(key))
