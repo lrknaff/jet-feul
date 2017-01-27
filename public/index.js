@@ -107,26 +107,40 @@ $.get('/api/urls/list', function(data) {
   }
 })
 
+$('.sort-url-date-button').on('click', function(e) {
+  e.preventDefault()
+  $.get('/api/urls/sort', function(data) {
+    for(var key in data) {
+      if (data.hasOwnProperty(key))
+      $urlSection.append(`
+        <li>
+          <div class="details">
+            <a id=${data[key].id} onClick="countVisited( ${data[key].id})">${data[key].short_url}</a>
+            <p>Created at: ${data[key].created_at}</p>
+            <p class="visits">Times visited: ${data[key].times_visited}</p>
+          </div>
+        </li>
+      `)
+    }
+  })
+})
+
 $('.sort-url-visit-button').on('click', function(e) {
   e.preventDefault()
-  $('urls').clear();
-  // $.get('/api/urls/sort', function(data) {
-  //   for(var key in data) {
-  //     if (data.hasOwnProperty(key))
-  //
-  //     console.log(data[key].id);
-  //
-  //     $urlSection.append(`
-  //       <li>
-  //         <div class="details">
-  //           <a id=${data[key].id} onClick="countVisited( ${data[key].id})">${data[key].short_url}</a>
-  //           <p>Created at: ${data[key].created_at}</p>
-  //           <p class="visits">Times visited: ${data[key].times_visited}</p>
-  //         </div>
-  //       </li>
-  //     `)
-  //   }
-  // })
+  $.get('/api/urls/sort', function(data) {
+    for(var key in data) {
+      if (data.hasOwnProperty(key))
+      $urlSection.append(`
+        <li>
+          <div class="details">
+            <a id=${data[key].id} onClick="countVisited( ${data[key].id})">${data[key].short_url}</a>
+            <p>Created at: ${data[key].created_at}</p>
+            <p class="visits">Times visited: ${data[key].times_visited}</p>
+          </div>
+        </li>
+      `)
+    }
+  })
 })
 
 $('.add-folder-button').on('click', function(e) {
