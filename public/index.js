@@ -109,10 +109,13 @@ $.get('/api/urls/list', function(data) {
 
 $('.sort-url-date-button').on('click', function(e) {
   e.preventDefault()
+
+  $('.urls').replaceWith(`<ul class="urls"></ul>`)
+
   $.get('/api/urls/sort', function(data) {
     for(var key in data) {
       if (data.hasOwnProperty(key))
-      $urlSection.append(`
+      $('.urls').append(`
         <li>
           <div class="details">
             <a id=${data[key].id} onClick="countVisited( ${data[key].id})">${data[key].short_url}</a>
@@ -127,10 +130,13 @@ $('.sort-url-date-button').on('click', function(e) {
 
 $('.sort-url-visit-button').on('click', function(e) {
   e.preventDefault()
+
+  $('.urls').replaceWith(`<ul class="urls"></ul>`)
+
   $.get('/api/urls/sort', function(data) {
     for(var key in data) {
       if (data.hasOwnProperty(key))
-      $urlSection.append(`
+      $('.urls').append(`
         <li>
           <div class="details">
             <a id=${data[key].id} onClick="countVisited( ${data[key].id})">${data[key].short_url}</a>
