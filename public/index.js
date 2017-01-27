@@ -14,12 +14,13 @@ function displayFolders(jsonData) {
 }
 
 function displayUrl(jsonData) {
+  console.log(jsonData)
   $(`.folder#${jsonData.folder_id} ul`).append(`
     <li>
       <div class="details">
         <a target="_blank" href="http://${jsonData.original_url}">${jsonData.short_url}</a>
         <p>Created at: ${jsonData.created_at}</p>
-        <p>Times visited: </p>
+        <p>Times visited: ${jsonData.times_visited}</p>
       </div>
     </li>
   `)
@@ -49,7 +50,7 @@ $.get('/api/urls', function(data) {
         <div class="details">
           <a target="_blank" href="http://${url.original_url}">${url.short_url}</a>
           <p>Created at: ${url.created_at}</p>
-          <p>Times visited: </p>
+          <p>Times visited: ${url.times_visited}</p>
         </div>
       </li>
     `)
@@ -80,7 +81,7 @@ $('.add-url-button').on('click', function(e) {
     type: 'post',
     data: {
       original_url: url,
-      folder_id: folderId
+      folder_id: folderId,
     },
     success: displayUrl
   })
