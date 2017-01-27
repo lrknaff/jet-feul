@@ -23,6 +23,15 @@ p {
   line-height: 20px;
 }
 
+a {
+  text-decoration: underline;
+  color: blue;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
 img {
   width: 225px;
   margin-top: 33px;

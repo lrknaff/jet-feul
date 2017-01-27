@@ -13,11 +13,10 @@ function displayFolders(jsonData) {
 }
 
 function displayUrl(jsonData) {
-  console.log(jsonData)
   $(`.folder#${jsonData.folder_id} ul`).append(`
     <li>
       <div class="details">
-        <a id=${jsonData.id} target="_blank" href="http://${jsonData.original_url} onClick="countVisited(${jsonData.times_visited}, ${jsonData.id})">${jsonData.short_url}</a>
+        <a id=${jsonData.id} onClick="countVisited( ${jsonData.id})">${jsonData.short_url}</a>
         <p>Created at: ${jsonData.created_at}</p>
         <p class="visits">Times visited: ${jsonData.times_visited}</p>
       </div>
@@ -26,23 +25,30 @@ function displayUrl(jsonData) {
 }
 
 function replaceCount(jsonData) {
-  console.log(jsonData.id)
   $(`a#${jsonData.id}`).siblings('.visits').replaceWith(`
-    <p class="visits">Times: visted: ${jsonData.times_visited}</p>
+    <p class="visits">Times visited: ${jsonData.times_visited}</p>
     `)
 }
 
-function countVisited(count, id) {
-  var addCount = count + 1
+function countVisited(id) {
+  $.get(`/api/urls/${id}`, function(data) {
+    var addCount = data[0].times_visited + 1
 
-  $.ajax({
-    url: `/api/urls/${id}`,
-    type: 'patch',
-    data: {
-      times_visited: addCount
-    },
-    success: replaceCount
+    $.ajax({
+      url: `/api/urls/${id}`,
+      type: 'patch',
+      data: {
+        times_visited: addCount
+      },
+      success: replaceCount
+    })
+
+   window.location.href = `http://${data[0].original_url}`
   })
+}
+
+function visitPage(url) {
+   window.visitUrl(url)
 }
 
 $.get('/api/folders', function(data) {
@@ -61,13 +67,12 @@ $.get('/api/folders', function(data) {
 })
 
 $.get('/api/urls', function(data) {
-  let urlData = data
   data.forEach(function(url) {
     var folderId = url.folder_id
     $(`.folder#${folderId} ul`).append(`
       <li>
         <div class="details">
-          <a id=${url.id} href="#" onClick="countVisited(${url.times_visited}, ${url.id})">${url.short_url}</a>
+          <a id=${url.id} onClick="countVisited( ${url.id})">${url.short_url}</a>
           <p>Created at: ${url.created_at}</p>
           <p class="visits">Times visited: ${url.times_visited}</p>
         </div>
@@ -75,8 +80,6 @@ $.get('/api/urls', function(data) {
     `)
   })
 })
-
-// target="_blank" href="http://${url.original_url}"
 
 $('.add-folder-button').on('click', function(e) {
   e.preventDefault()
