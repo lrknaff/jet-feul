@@ -51,8 +51,18 @@ app.get('/api/urls/list', (request, response) => {
           })
 })
 
-app.get('/api/urls/sort', (request, response) => {
+app.get('/api/urls/sort-visit', (request, response) => {
   database('folders').select().table('urls').orderBy('times_visited', 'desc')
+          .then(function(urls) {
+            response.status(200).json(urls)
+          })
+          .catch(function(error) {
+            console.error('something wrong with db')
+          })
+})
+
+app.get('/api/urls/sort-date', (request, response) => {
+  database('folders').select().table('urls').orderBy('created_at', 'desc')
           .then(function(urls) {
             response.status(200).json(urls)
           })
